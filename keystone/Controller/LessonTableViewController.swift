@@ -52,6 +52,7 @@ class LessonTableViewController: UITableViewController {
             studentList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+        
         loadStudents()
     }
     
