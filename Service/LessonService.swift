@@ -2,8 +2,8 @@
 //  LessonService.swift
 //  keystone
 //
-//  Created by Dhaval s on 17/01/19.
-//  Copyright © 2019 Dhaval s. All rights reserved.
+//  Created by Sarika on 17/01/19.
+//  Copyright © 2019 Sarika All rights reserved.
 //
 
 import Foundation
@@ -24,7 +24,7 @@ class LessonService {
     
     //MARK : Read
     func getAllStudent() -> [Student]?{ //optional because if there is no students we return nil value
-        let sortByLesson = NSSortDescriptor(key: "lesson.type", ascending: true)
+        let sortByLesson = NSSortDescriptor(key: "studenttolesson.type", ascending: true)
         let sortByName = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptor = [sortByLesson,sortByName]
         let request : NSFetchRequest<Student> = Student.fetchRequest()
@@ -49,6 +49,15 @@ class LessonService {
             students.append(student)
             completion(true,students)
         }
+        save()
+    }
+    
+    //MARK : Delete
+    func deleteStudent(student: Student)  {
+        let lesson = student.studenttolesson
+        students = students.filter{($0 != student)}
+        lesson?.removeFromLessontostudents(student)
+        context.delete(student)
         save()
     }
     

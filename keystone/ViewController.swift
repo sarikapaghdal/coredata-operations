@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  keystone
 //
-//  Created by Dhaval s on 17/01/19.
-//  Copyright © 2019 Dhaval s. All rights reserved.
+//  Created by Sarika on 17/01/19.
+//  Copyright © 2019 Sarika All rights reserved.
 //
 
 import UIKit

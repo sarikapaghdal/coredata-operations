@@ -2,8 +2,8 @@
 //  LessonTableViewController.swift
 //  keystone
 //
-//  Created by Dhaval s on 17/01/19.
-//  Copyright © 2019 Dhaval s. All rights reserved.
+//  Created by Sarika on 17/01/19.
+//  Copyright © 2019 Sarika All rights reserved.
 //
 
 import UIKit
@@ -44,6 +44,15 @@ class LessonTableViewController: UITableViewController {
         cell.textLabel?.text = studentList[indexPath.row].name
         cell.detailTextLabel?.text = studentList[indexPath.row].studenttolesson?.type
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            lessonService?.deleteStudent(student: studentList[indexPath.row])
+            studentList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        loadStudents()
     }
     
     //MARK : Private
