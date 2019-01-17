@@ -61,6 +61,21 @@ class LessonService {
         save()
     }
     
+    //MARK: Update
+    func updateStudent(student: Student, name: String, lesson : String){
+        /**two types of updates here
+         1) we want to change name of the student keeping lesson same
+         2) we want to change both name and lesson
+        */
+        if student.studenttolesson?.type?.caseInsensitiveCompare(lesson) == .orderedSame{
+            let lesson = student.studenttolesson
+            let studentList = Array(lesson?.lessontostudents?.mutableCopy() as! NSMutableSet) as! [Student]
+            
+        }
+        
+        
+    }
+    
     //MARK : Private
     private func lessonExist(_ type:LessonType) -> Lesson?{
         let request : NSFetchRequest<Lesson> = Lesson.fetchRequest()

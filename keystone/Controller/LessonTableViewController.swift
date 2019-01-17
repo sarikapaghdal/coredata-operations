@@ -20,7 +20,8 @@ class LessonTableViewController: UITableViewController {
     
     private var lessonService: LessonService?
     private var studentList = [Student]()
-  
+    private var studentToUpdate : Student?
+    
     @IBAction func studentpressed(_ sender: UIBarButtonItem) {
         present(alertController(actionType: "Add"), animated: true, completion: nil)
     }
@@ -56,6 +57,12 @@ class LessonTableViewController: UITableViewController {
         loadStudents()
     }
     
+    // MARK: - Table view data source
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        studentToUpdate = studentList[indexPath.row]
+        present(alertController(actionType: "update"), animated: true, completion: nil)
+    }
+    
     //MARK : Private
     private func alertController(actionType: String) -> UIAlertController{
         let ac = UIAlertController(title: "Perk Lesson", message: "Student Info", preferredStyle: .alert)
@@ -75,6 +82,15 @@ class LessonTableViewController: UITableViewController {
                         }
                     })
                 }
+            }
+            else{
+                
+                guard let name = ac.textFields?.first?.text, !name.isEmpty,
+                let studenttoupdate = self?.studentToUpdate,
+                let lessonType = ac.textFields?[1].text else{
+                    return
+                }
+                
             }
             DispatchQueue.main.async {
                 self?.loadStudents()
