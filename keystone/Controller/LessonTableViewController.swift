@@ -66,11 +66,13 @@ class LessonTableViewController: UITableViewController {
     //MARK : Private
     private func alertController(actionType: String) -> UIAlertController{
         let ac = UIAlertController(title: "Perk Lesson", message: "Student Info", preferredStyle: .alert)
-        ac.addTextField { (testField: UITextField) in
-            testField.placeholder = "Name"
+        ac.addTextField { [weak self] (textField: UITextField) in
+            textField.placeholder = "Name"
+            textField.text = self?.studentList == nil ? "" : self?.studentToUpdate?.name
         }
-        ac.addTextField { (testField: UITextField) in
-            testField.placeholder = "Lesson type : Ski,snow board"
+        ac.addTextField { [weak self] (textField: UITextField) in
+            textField.placeholder = "Lesson type : Ski,snow board"
+            textField.text = self?.studentList == nil ? "" : self?.studentToUpdate?.studenttolesson?.type
         }
         let defaultAction = UIAlertAction(title: actionType.uppercased(), style: .default) { [weak self](alertAction) in
             guard let studentName = ac.textFields?[0].text , let lesson = ac.textFields?[1].text else{return}
@@ -91,6 +93,8 @@ class LessonTableViewController: UITableViewController {
                     return
                 }
                 
+                self?.lessonService?.updateStudent(student: studenttoupdate, name: name, lesson: lessonType)
+                self?.studentToUpdate = nil
             }
             DispatchQueue.main.async {
                 self?.loadStudents()

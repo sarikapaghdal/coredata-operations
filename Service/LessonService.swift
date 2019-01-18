@@ -69,11 +69,23 @@ class LessonService {
         */
         if student.studenttolesson?.type?.caseInsensitiveCompare(lesson) == .orderedSame{
             let lesson = student.studenttolesson
-            let studentList = Array(lesson?.lessontostudents?.mutableCopy() as! NSMutableSet) as! [Student]
+            let studentList = Array(lesson?.lessontostudents?.mutableCopy() as! NSMutableSet) as! [Student] //one lesson can have multiple students so we get here array of Students
+            
+            if let index = studentList.lastIndex(where: { $0 == student}){
+                studentList[index].name = name
+                lesson?.lessontostudents = NSSet(array: studentList)
+            }
             
         }
-        
-        
+        else{
+            if let lessonType = LessonType(rawValue: lesson),
+                let lesson = lessonExist(lessonType){
+                lesson.removeFromLessontostudents(student)
+                student.name = name
+                register(student, for: lesson)
+            }
+        }
+        save()
     }
     
     //MARK : Private
